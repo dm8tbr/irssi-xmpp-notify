@@ -30,10 +30,10 @@ sub cmd_xmpp_notify {
   Irssi::print('%G>>%n xmpp_show_hilight : Notify when your name is hilighted.');
   Irssi::print('%G>>%n xmpp_show_notify : Notify when someone on your away list joins or leaves.');
   Irssi::print('%G>>%n xmpp_show_topic : Notify about topic changes.');
-  Irssi::print('%G>>%n xmpp_notify_user : Set to xmpp account to send from.');
-  Irssi::print('%G>>%n xmpp_notify_recv : Set to xmpp account to receive message.');;
+  Irssi::print('%G>>%n xmpp_notify_user : Set to xmpp account user name to send from.');
+  Irssi::print('%G>>%n xmpp_notify_recv : Set to xmpp JID to receive notification messages.');;
   Irssi::print('%G>>%n xmpp_notify_server : Set to the xmpp server host name');
-  Irssi::print('%G>>%n xmpp_notify_pass : Set to the sending accounts jabber password');
+  Irssi::print('%G>>%n xmpp_notify_pass : Set to the sending xmpp account password');
   Irssi::print('%G>>%n xmpp_notify_tls : Set to enable TLS connection to xmpp server');
   Irssi::print('%G>>%n xmpp_notify_port : Set to the xmpp server port number');
   Irssi::print('%G>>%n xmpp_notify_domain : Set to the xmpp domain name if different from server name');
