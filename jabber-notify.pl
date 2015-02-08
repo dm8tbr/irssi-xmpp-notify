@@ -90,7 +90,8 @@ my $status = $Connection->Connect(
   "hostname" => $XMPPServ,
   "port" => $XMPPPort,
   "componentname" => $XMPPDomain,
-  "tls" => $XMPPTLS );
+  "tls" => $XMPPTLS,
+  "ssl_ca_path" => "/etc/ssl/certs" );
 
 
 
