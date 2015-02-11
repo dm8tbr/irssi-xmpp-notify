@@ -6,7 +6,7 @@
 # Based on growl-net.pl script by Alex Mason, Jason Adams.
 
 use strict;
-use vars qw($VERSION %IRSSI $AppName $XMPPUser $XMPPPass $XMPPDomain $XMPPServ $XMPPRes $XMPPRecv $XMPPTLS $XMPPPort $testing $Connection $j);
+use vars qw($VERSION %IRSSI $AppName $XMPPUser $XMPPPass $XMPPDomain $XMPPServ $XMPPRes $XMPPRecv $XMPPTLS $XMPPCAPath $XMPPPort $testing $Connection $j);
 
 use Irssi;
 use Net::Jabber qw( Client );
@@ -35,6 +35,7 @@ sub cmd_xmpp_notify {
   Irssi::print('%G>>%n xmpp_notify_server : Set to the xmpp server host name');
   Irssi::print('%G>>%n xmpp_notify_pass : Set to the sending xmpp account password');
   Irssi::print('%G>>%n xmpp_notify_tls : Set to enable TLS connection to xmpp server');
+  Irssi::print('%G>>%n xmpp_notify_ca_path : Set if you need a custom CA search path for TLS');
   Irssi::print('%G>>%n xmpp_notify_port : Set to the xmpp server port number');
   Irssi::print('%G>>%n xmpp_notify_domain : Set to the xmpp domain name if different from server name');
 }
@@ -62,6 +63,7 @@ Irssi::settings_add_str($IRSSI{'name'},  'xmpp_notify_domain',  undef);
 Irssi::settings_add_str($IRSSI{'name'},  'xmpp_notify_recv',    'noone');
 Irssi::settings_add_str($IRSSI{'name'},  'xmpp_notify_res',     '');
 Irssi::settings_add_bool($IRSSI{'name'}, 'xmpp_notify_tls',     1);
+Irssi::settings_add_str($IRSSI{'name'}, 'xmpp_notify_ca_path',  '/etc/ssl/certs');
 Irssi::settings_add_int($IRSSI{'name'},  'xmpp_notify_port',    5222);
 
 $XMPPUser   = Irssi::settings_get_str('xmpp_notify_user');
@@ -71,6 +73,7 @@ $XMPPServ   = Irssi::settings_get_str('xmpp_notify_server');
 $XMPPRecv   = Irssi::settings_get_str('xmpp_notify_recv');
 $XMPPRes    = Irssi::settings_get_str('xmpp_notify_res');
 $XMPPTLS    = Irssi::settings_get_bool('xmpp_notify_tls');
+$XMPPCAPath = Irssi::settings_get_str('xmpp_notify_ca_path');
 $XMPPPort   = Irssi::settings_get_int('xmpp_notify_port');
 $AppName    = "irssi $XMPPServ";
 
@@ -91,7 +94,7 @@ my $status = $Connection->Connect(
   "port" => $XMPPPort,
   "componentname" => $XMPPDomain,
   "tls" => $XMPPTLS,
-  "ssl_ca_path" => "/etc/ssl/certs" );
+  "ssl_ca_path" => $XMPPCAPath );
 
 
 
