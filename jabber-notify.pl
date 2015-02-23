@@ -6,7 +6,7 @@
 # Based on growl-net.pl script by Alex Mason, Jason Adams.
 
 use strict;
-use vars qw($VERSION %IRSSI $AppName $XMPPUser $XMPPPass $XMPPDomain $XMPPServ $XMPPRes $XMPPRecv $XMPPTLS $XMPPCAPath $XMPPPort $testing $Connection $j);
+use vars qw($VERSION %IRSSI $AppName $XMPPUser $XMPPPass $XMPPDomain $XMPPServ $XMPPRes $XMPPRecv $XMPPTLS $XMPPCAPath $XMPPPort $XMPPDebugFile $testing $Connection $j);
 
 use Irssi;
 use Net::Jabber qw( Client );
@@ -38,6 +38,7 @@ sub cmd_xmpp_notify {
   Irssi::print('%G>>%n xmpp_notify_ca_path : Set if you need a custom CA search path for TLS');
   Irssi::print('%G>>%n xmpp_notify_port : Set to the xmpp server port number');
   Irssi::print('%G>>%n xmpp_notify_domain : Set to the xmpp domain name if different from server name');
+  Irssi::print('%G>>%n xmpp_notify_debug_file : If set, debug output from Net::Jabber will be written to this file. Needs reload.');
 }
 
 sub cmd_xmpp_notify_test {
@@ -51,31 +52,33 @@ sub cmd_xmpp_notify_test {
 
 }
 
-Irssi::settings_add_bool($IRSSI{'name'}, 'xmpp_show_privmsg',   1);
-Irssi::settings_add_bool($IRSSI{'name'}, 'xmpp_reveal_privmsg', 1);
-Irssi::settings_add_bool($IRSSI{'name'}, 'xmpp_show_hilight',   1);
-Irssi::settings_add_bool($IRSSI{'name'}, 'xmpp_show_notify',    1);
-Irssi::settings_add_bool($IRSSI{'name'}, 'xmpp_show_topic',     1);
-Irssi::settings_add_str($IRSSI{'name'},  'xmpp_notify_pass',    'password');
-Irssi::settings_add_str($IRSSI{'name'},  'xmpp_notify_server',  'localhost');
-Irssi::settings_add_str($IRSSI{'name'},  'xmpp_notify_user',    'irssi');
-Irssi::settings_add_str($IRSSI{'name'},  'xmpp_notify_domain',  undef);
-Irssi::settings_add_str($IRSSI{'name'},  'xmpp_notify_recv',    'noone');
-Irssi::settings_add_str($IRSSI{'name'},  'xmpp_notify_res',     '');
-Irssi::settings_add_bool($IRSSI{'name'}, 'xmpp_notify_tls',     1);
-Irssi::settings_add_str($IRSSI{'name'}, 'xmpp_notify_ca_path',  '/etc/ssl/certs');
-Irssi::settings_add_int($IRSSI{'name'},  'xmpp_notify_port',    5222);
+Irssi::settings_add_bool($IRSSI{'name'}, 'xmpp_show_privmsg',      1);
+Irssi::settings_add_bool($IRSSI{'name'}, 'xmpp_reveal_privmsg',    1);
+Irssi::settings_add_bool($IRSSI{'name'}, 'xmpp_show_hilight',      1);
+Irssi::settings_add_bool($IRSSI{'name'}, 'xmpp_show_notify',       1);
+Irssi::settings_add_bool($IRSSI{'name'}, 'xmpp_show_topic',        1);
+Irssi::settings_add_str($IRSSI{'name'},  'xmpp_notify_pass',       'password');
+Irssi::settings_add_str($IRSSI{'name'},  'xmpp_notify_server',     'localhost');
+Irssi::settings_add_str($IRSSI{'name'},  'xmpp_notify_user',       'irssi');
+Irssi::settings_add_str($IRSSI{'name'},  'xmpp_notify_domain',     undef);
+Irssi::settings_add_str($IRSSI{'name'},  'xmpp_notify_recv',       'noone');
+Irssi::settings_add_str($IRSSI{'name'},  'xmpp_notify_res',        '');
+Irssi::settings_add_bool($IRSSI{'name'}, 'xmpp_notify_tls',        1);
+Irssi::settings_add_str($IRSSI{'name'},  'xmpp_notify_ca_path',    '/etc/ssl/certs');
+Irssi::settings_add_int($IRSSI{'name'},  'xmpp_notify_port',       5222);
+Irssi::settings_add_str($IRSSI{'name'},  'xmpp_notify_debug_file', undef);
 
-$XMPPUser   = Irssi::settings_get_str('xmpp_notify_user');
-$XMPPPass   = Irssi::settings_get_str('xmpp_notify_pass');
-$XMPPDomain = Irssi::settings_get_str('xmpp_notify_domain');
-$XMPPServ   = Irssi::settings_get_str('xmpp_notify_server');
-$XMPPRecv   = Irssi::settings_get_str('xmpp_notify_recv');
-$XMPPRes    = Irssi::settings_get_str('xmpp_notify_res');
-$XMPPTLS    = Irssi::settings_get_bool('xmpp_notify_tls');
-$XMPPCAPath = Irssi::settings_get_str('xmpp_notify_ca_path');
-$XMPPPort   = Irssi::settings_get_int('xmpp_notify_port');
-$AppName    = "irssi $XMPPServ";
+$XMPPUser       = Irssi::settings_get_str('xmpp_notify_user');
+$XMPPPass       = Irssi::settings_get_str('xmpp_notify_pass');
+$XMPPDomain     = Irssi::settings_get_str('xmpp_notify_domain');
+$XMPPServ       = Irssi::settings_get_str('xmpp_notify_server');
+$XMPPRecv       = Irssi::settings_get_str('xmpp_notify_recv');
+$XMPPRes        = Irssi::settings_get_str('xmpp_notify_res');
+$XMPPTLS        = Irssi::settings_get_bool('xmpp_notify_tls');
+$XMPPCAPath     = Irssi::settings_get_str('xmpp_notify_ca_path');
+$XMPPPort       = Irssi::settings_get_int('xmpp_notify_port');
+$XMPPDebugFile  = Irssi::settings_get_str('xmpp_notify_debug_file');
+$AppName        = "irssi $XMPPServ";
 
 if (!$XMPPDomain)
 {
@@ -87,7 +90,17 @@ if (!$XMPPRecv)
   $XMPPRecv = $XMPPUser.'@'.$XMPPDomain;
 }
 
-$Connection = Net::Jabber::Client->new();
+if ($XMPPDebugFile)
+{
+  $Connection = Net::Jabber::Client->new(
+    "debuglevel" => 2,
+    "debugfile"  => $XMPPDebugFile,
+    "debugtime"  => 1);
+}
+else
+{
+  $Connection = Net::Jabber::Client->new();
+}
 
 my $status = $Connection->Connect(
   "hostname" => $XMPPServ,
