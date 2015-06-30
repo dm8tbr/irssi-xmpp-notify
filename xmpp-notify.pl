@@ -47,12 +47,12 @@ use utf8;
  
 $VERSION = '1.0';
 %IRSSI = (
-  authors      =>   'Thomas B. Ruecker, Based on Peter Krenesky\'s script, Based on growl-net.pl script by Alex Mason, Jason Adams (based on the growl.pl script from Growl.info by Nelson Elhage and Toby Peterson)',
+  authors      =>   'Thomas B. Ruecker',
   contact      =>   'thomas@ruecker.fi, tbr on irc.freenode.net',
   name         =>   'XMPP-notify',
-  description  =>   'Sends out notifications via XMPP',
+  description  =>   'Sends out notifications via XMPP. Based on a script by Peter Krenesky.',
   license      =>   'BSD-3-Clause',
-  url          =>   'http://github.com/dm8tbr/irssi-jabber-notify/',
+  url          =>   'http://github.com/dm8tbr/irssi-xmpp-notify/',
 
 );
 
@@ -63,7 +63,7 @@ sub cmd_xmpp_notify {
   Irssi::print('%G>>%n xmpp_show_hilight : Notify when your name is hilighted.');
   Irssi::print('%G>>%n xmpp_show_notify : Notify when someone on your away list joins or leaves.');
   Irssi::print('%G>>%n xmpp_show_topic : Notify about topic changes.');
-  Irssi::print('%G>>%n xmpp_notify_user : Set to xmpp account user name to send from.');
+  Irssi::print('%G>>%n xmpp_notify_user : Set to xmpp account user name to send notifications from.');
   Irssi::print('%G>>%n xmpp_notify_recv : Set to xmpp JID to receive notification messages.');;
   Irssi::print('%G>>%n xmpp_notify_server : Set to the xmpp server host name');
   Irssi::print('%G>>%n xmpp_notify_pass : Set to the sending xmpp account password');
