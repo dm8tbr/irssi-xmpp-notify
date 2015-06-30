@@ -250,7 +250,7 @@ sub sig_message_topic {
 
 
 Irssi::command_bind('xmpp-notify', 'cmd_xmpp_notify');
-Irssi::command_bind('xn-test', 'cmd_xmpp_notify_test');
+Irssi::command_bind('xmpp-test', 'cmd_xmpp_notify_test');
 
 Irssi::signal_add_last('message private', \&sig_message_private);
 Irssi::signal_add_last('print text', \&sig_print_text);
