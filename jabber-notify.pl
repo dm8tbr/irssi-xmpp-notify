@@ -113,7 +113,7 @@ my $status = $Connection->Connect(
 
 if (!(defined($status)))
 {
-  Irssi::print("ERROR:  Jabber server is down or connection was not allowed.");
+  Irssi::print("ERROR:  XMPP server is down or connection was not allowed.");
   Irssi::print ("        ($!)");
   return;
 }
