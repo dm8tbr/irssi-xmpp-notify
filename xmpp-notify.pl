@@ -259,5 +259,5 @@ Irssi::signal_add_last('notifylist left', \&sig_notify_left);
 Irssi::signal_add_last('message topic', \&sig_message_topic);
 
 
-Irssi::print('%G>>%n '.$IRSSI{name}.' '.$VERSION.' loaded (/xmpp-notify for help. /xn-test to test.)');
+Irssi::print('%G>>%n '.$IRSSI{name}.' '.$VERSION.' loaded (/xmpp-notify for help. /xmpp-test to test.)');
 
