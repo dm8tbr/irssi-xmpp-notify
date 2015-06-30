@@ -144,6 +144,7 @@ sub sig_message_private ($$$$) {
     $body = '(PM: '.$nick.') '.$data;
   }
   utf8::decode($body);
+  $body = Irssi::strip_codes($body);
   $message->SetMessage(to=>$XMPPRecv);
   $message->SetMessage(
     type=>"chat",
@@ -161,6 +162,7 @@ sub sig_print_text ($$$) {
     my $message = new Net::Jabber::Message();
     my $body = '['.$dest->{target}.'] '.$stripped;
     utf8::decode($body);
+    $body = Irssi::strip_codes($body);
     $message->SetMessage(to=>$XMPPRecv);
     $message->SetMessage(
       type=>"chat",
@@ -205,6 +207,7 @@ sub sig_message_topic {
   my $message = new Net::Jabber::Message();
   my $body = 'Topic for '.$channel.': '.$topic;
   utf8::decode($body);
+  $body = Irssi::strip_codes($body);
   $message->SetMessage(to=>$XMPPRecv);
   $message->SetMessage(
     type=>"chat",
